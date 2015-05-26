@@ -1,0 +1,364 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C81E314E1B12EC6B00910E12 /* myo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C81E314D1B12EC6B00910E12 /* myo.framework */; };
+		C81E314F1B12EF7D00910E12 /* myo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C81E314D1B12EC6B00910E12 /* myo.framework */; };
+		C81E31591B12F32100910E12 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31581B12F32100910E12 /* main.cpp */; };
+		C81E31681B12F3B400910E12 /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E315F1B12F3B400910E12 /* OscOutboundPacketStream.cpp */; };
+		C81E31691B12F3B400910E12 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31621B12F3B400910E12 /* OscPrintReceivedElements.cpp */; };
+		C81E316A1B12F3B400910E12 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31641B12F3B400910E12 /* OscReceivedElements.cpp */; };
+		C81E316B1B12F3B400910E12 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31661B12F3B400910E12 /* OscTypes.cpp */; };
+		C81E31791B12F3D000910E12 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E316D1B12F3D000910E12 /* IpEndpointName.cpp */; };
+		C81E317A1B12F3D000910E12 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31721B12F3D000910E12 /* NetworkingUtils.cpp */; };
+		C81E317B1B12F3D000910E12 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C81E31731B12F3D000910E12 /* UdpSocket.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C81E31411B12EA6A00910E12 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				C81E314F1B12EF7D00910E12 /* myo.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C81E31431B12EA6A00910E12 /* myo_server */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = myo_server; sourceTree = BUILT_PRODUCTS_DIR; };
+		C81E314D1B12EC6B00910E12 /* myo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = myo.framework; path = lib/myo_sdk/myo.framework; sourceTree = "<group>"; };
+		C81E31581B12F32100910E12 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		C81E315C1B12F3B400910E12 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
+		C81E315D1B12F3B400910E12 /* OscException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscException.h; sourceTree = "<group>"; };
+		C81E315E1B12F3B400910E12 /* OscHostEndianness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscHostEndianness.h; sourceTree = "<group>"; };
+		C81E315F1B12F3B400910E12 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscOutboundPacketStream.cpp; sourceTree = "<group>"; };
+		C81E31601B12F3B400910E12 /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscOutboundPacketStream.h; sourceTree = "<group>"; };
+		C81E31611B12F3B400910E12 /* OscPacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscPacketListener.h; sourceTree = "<group>"; };
+		C81E31621B12F3B400910E12 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscPrintReceivedElements.cpp; sourceTree = "<group>"; };
+		C81E31631B12F3B400910E12 /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscPrintReceivedElements.h; sourceTree = "<group>"; };
+		C81E31641B12F3B400910E12 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscReceivedElements.cpp; sourceTree = "<group>"; };
+		C81E31651B12F3B400910E12 /* OscReceivedElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscReceivedElements.h; sourceTree = "<group>"; };
+		C81E31661B12F3B400910E12 /* OscTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OscTypes.cpp; sourceTree = "<group>"; };
+		C81E31671B12F3B400910E12 /* OscTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscTypes.h; sourceTree = "<group>"; };
+		C81E316D1B12F3D000910E12 /* IpEndpointName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
+		C81E316E1B12F3D000910E12 /* IpEndpointName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
+		C81E316F1B12F3D000910E12 /* NetworkingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
+		C81E31701B12F3D000910E12 /* PacketListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketListener.h; sourceTree = "<group>"; };
+		C81E31721B12F3D000910E12 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkingUtils.cpp; sourceTree = "<group>"; };
+		C81E31731B12F3D000910E12 /* UdpSocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UdpSocket.cpp; sourceTree = "<group>"; };
+		C81E31741B12F3D000910E12 /* TimerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerListener.h; sourceTree = "<group>"; };
+		C81E31751B12F3D000910E12 /* UdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UdpSocket.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C81E31401B12EA6A00910E12 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C81E314E1B12EC6B00910E12 /* myo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C81E313A1B12EA6A00910E12 = {
+			isa = PBXGroup;
+			children = (
+				C81E31571B12F2DA00910E12 /* libs */,
+				C81E31451B12EA6A00910E12 /* myo_server */,
+				C81E31441B12EA6A00910E12 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C81E31441B12EA6A00910E12 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C81E31431B12EA6A00910E12 /* myo_server */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C81E31451B12EA6A00910E12 /* myo_server */ = {
+			isa = PBXGroup;
+			children = (
+				C81E31581B12F32100910E12 /* main.cpp */,
+			);
+			path = myo_server;
+			sourceTree = "<group>";
+		};
+		C81E31571B12F2DA00910E12 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				C81E315A1B12F33F00910E12 /* oscpack */,
+				C81E314D1B12EC6B00910E12 /* myo.framework */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+		C81E315A1B12F33F00910E12 /* oscpack */ = {
+			isa = PBXGroup;
+			children = (
+				C81E316C1B12F3D000910E12 /* ip */,
+				C81E315B1B12F3B400910E12 /* osc */,
+			);
+			name = oscpack;
+			sourceTree = "<group>";
+		};
+		C81E315B1B12F3B400910E12 /* osc */ = {
+			isa = PBXGroup;
+			children = (
+				C81E315C1B12F3B400910E12 /* MessageMappingOscPacketListener.h */,
+				C81E315D1B12F3B400910E12 /* OscException.h */,
+				C81E315E1B12F3B400910E12 /* OscHostEndianness.h */,
+				C81E315F1B12F3B400910E12 /* OscOutboundPacketStream.cpp */,
+				C81E31601B12F3B400910E12 /* OscOutboundPacketStream.h */,
+				C81E31611B12F3B400910E12 /* OscPacketListener.h */,
+				C81E31621B12F3B400910E12 /* OscPrintReceivedElements.cpp */,
+				C81E31631B12F3B400910E12 /* OscPrintReceivedElements.h */,
+				C81E31641B12F3B400910E12 /* OscReceivedElements.cpp */,
+				C81E31651B12F3B400910E12 /* OscReceivedElements.h */,
+				C81E31661B12F3B400910E12 /* OscTypes.cpp */,
+				C81E31671B12F3B400910E12 /* OscTypes.h */,
+			);
+			name = osc;
+			path = lib/oscpack_1_1_0/osc;
+			sourceTree = "<group>";
+		};
+		C81E316C1B12F3D000910E12 /* ip */ = {
+			isa = PBXGroup;
+			children = (
+				C81E316D1B12F3D000910E12 /* IpEndpointName.cpp */,
+				C81E316E1B12F3D000910E12 /* IpEndpointName.h */,
+				C81E316F1B12F3D000910E12 /* NetworkingUtils.h */,
+				C81E31701B12F3D000910E12 /* PacketListener.h */,
+				C81E31711B12F3D000910E12 /* posix */,
+				C81E31741B12F3D000910E12 /* TimerListener.h */,
+				C81E31751B12F3D000910E12 /* UdpSocket.h */,
+			);
+			name = ip;
+			path = lib/oscpack_1_1_0/ip;
+			sourceTree = "<group>";
+		};
+		C81E31711B12F3D000910E12 /* posix */ = {
+			isa = PBXGroup;
+			children = (
+				C81E31721B12F3D000910E12 /* NetworkingUtils.cpp */,
+				C81E31731B12F3D000910E12 /* UdpSocket.cpp */,
+			);
+			path = posix;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C81E31421B12EA6A00910E12 /* myo_server */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C81E314A1B12EA6A00910E12 /* Build configuration list for PBXNativeTarget "myo_server" */;
+			buildPhases = (
+				C81E313F1B12EA6A00910E12 /* Sources */,
+				C81E31401B12EA6A00910E12 /* Frameworks */,
+				C81E31411B12EA6A00910E12 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = myo_server;
+			productName = myo_server;
+			productReference = C81E31431B12EA6A00910E12 /* myo_server */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C81E313B1B12EA6A00910E12 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = bzztbomb;
+				TargetAttributes = {
+					C81E31421B12EA6A00910E12 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = C81E313E1B12EA6A00910E12 /* Build configuration list for PBXProject "myo_server" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C81E313A1B12EA6A00910E12;
+			productRefGroup = C81E31441B12EA6A00910E12 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C81E31421B12EA6A00910E12 /* myo_server */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C81E313F1B12EA6A00910E12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C81E317B1B12F3D000910E12 /* UdpSocket.cpp in Sources */,
+				C81E31591B12F32100910E12 /* main.cpp in Sources */,
+				C81E316A1B12F3B400910E12 /* OscReceivedElements.cpp in Sources */,
+				C81E316B1B12F3B400910E12 /* OscTypes.cpp in Sources */,
+				C81E31681B12F3B400910E12 /* OscOutboundPacketStream.cpp in Sources */,
+				C81E31791B12F3D000910E12 /* IpEndpointName.cpp in Sources */,
+				C81E31691B12F3B400910E12 /* OscPrintReceivedElements.cpp in Sources */,
+				C81E317A1B12F3D000910E12 /* NetworkingUtils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C81E31481B12EA6A00910E12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					lib/oscpack_1_1_0/,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C81E31491B12EA6A00910E12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					lib/oscpack_1_1_0/,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C81E314B1B12EA6A00910E12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/myo_sdk",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C81E314C1B12EA6A00910E12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/myo_sdk",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C81E313E1B12EA6A00910E12 /* Build configuration list for PBXProject "myo_server" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C81E31481B12EA6A00910E12 /* Debug */,
+				C81E31491B12EA6A00910E12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C81E314A1B12EA6A00910E12 /* Build configuration list for PBXNativeTarget "myo_server" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C81E314B1B12EA6A00910E12 /* Debug */,
+				C81E314C1B12EA6A00910E12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C81E313B1B12EA6A00910E12 /* Project object */;
+}
