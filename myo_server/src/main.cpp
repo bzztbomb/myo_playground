@@ -6,6 +6,11 @@
 #include <functional>
 #include <chrono>
 
+using namespace std;
+
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+
 #include <myo/myo.hpp>
 
 #include "osc/OscOutboundPacketStream.h"
@@ -30,7 +35,7 @@ public:
   , mFPS(std::chrono::milliseconds((int) (1000.0f / 30.0f)))
   {
   }
-  
+
   virtual void poll() {
     if (RandomClock::now() - mLastTime < mFPS)
       return;
@@ -162,13 +167,45 @@ void print(const DataPacket& packet) {
   // Send WebSocket
 }
 
+void addOscOutput(const std::string& in_address, bool broadcast) {
+  auto pos = find(in_address.begin(), in_address.end(), ':');
+  if (pos == in_address.end()) {
+    cerr << in_address << " does specifiy a port, should be address:port" << endl;
+    exit(1);
+  }
+  string address = in_address.substr(0, pos - in_address.begin());
+  int port = stoi(in_address.substr(pos - in_address.begin() + 1));
+  // Initialize the broadcast sockets
+  UdpTransmitSocket* output = new UdpTransmitSocket(IpEndpointName(address.c_str(), port));
+  output->SetAllowReuse(true);
+  if (broadcast)
+    output->SetEnableBroadcast(true);
+  oscOutputs.push_back(output);
+  cout << (broadcast ? "Broadcasting on " : "Sending to ") << address << ", port: " << port << endl;
+}
+
 int main(int argc, char** argv)
 {
-  // Initialize the broadcast socket
-  UdpTransmitSocket* output = new UdpTransmitSocket(IpEndpointName(ADDRESS, PORT));
-  output->SetAllowReuse(true);
-  output->SetEnableBroadcast(true);
-  oscOutputs.push_back(output);
+  po::options_description desc("Allowed options");
+  desc.add_options()
+    ("help", "produce help message")
+    ("oscbroadcast", po::value< vector<string> >(), "broadcast packets on this address:port")
+    ("oscsend", po::value< vector<string> >(), "send packets directly to address:port");
+
+  po::variables_map vm;
+  po::store(po::parse_command_line(argc, argv, desc), vm);
+  po::notify(vm);
+
+  std::vector<std::pair<string, bool>> oscOuts = {
+    { "oscbroadcast", true },
+    { "oscsend", false }
+  };
+  for (auto option : oscOuts) {
+    if (vm.count(option.first)) {
+      for (auto i : vm[option.first].as< vector<string> >())
+        addOscOutput(i, option.second);
+    }
+  }
   
   RandomDataSource random;
 
@@ -177,7 +214,7 @@ int main(int argc, char** argv)
 
   DataSource* activeSource = &random; //collector.connect() ? &collector : &random;
   activeSource->setCallback(print);
-  
+
   while (1) {
     activeSource->poll();
   }
