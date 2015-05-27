@@ -325,9 +325,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib/myo_sdk",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					lib/oscpack_1_1_0/,
+					"$(BOOST_DIR)/",
+					lib/websocketpp/,
+				);
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
 				LIBRARY_SEARCH_PATHS = "$(BOOST_DIR)/stage-OSX/lib";
-				OTHER_LDFLAGS = "-lboost_program_options";
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -339,9 +349,19 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib/myo_sdk",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					lib/oscpack_1_1_0/,
+					"$(BOOST_DIR)/",
+					lib/websocketpp/,
+				);
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
 				LIBRARY_SEARCH_PATHS = "$(BOOST_DIR)/stage-OSX/lib";
-				OTHER_LDFLAGS = "-lboost_program_options";
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

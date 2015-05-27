@@ -11,10 +11,14 @@ using namespace std;
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-#include <myo/myo.hpp>
-
 #include "osc/OscOutboundPacketStream.h"
 #include "ip/UdpSocket.h"
+
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
+
+// Myo armband
+#include <myo/myo.hpp>
 
 typedef std::array<int8_t, 8> DataPacket;
 typedef std::function<void(const DataPacket&)> NewDataCallback;
@@ -130,42 +134,12 @@ private:
   std::array<int8_t, 8> emgSamples;
 };
 
-#define ADDRESS "127.0.0.1"
-#define PORT 7000
-
+//#define ADDRESS "127.0.0.1"
+//#define PORT 7000
+//
 #define OUTPUT_BUFFER_SIZE 1024
 
 std::vector<UdpTransmitSocket*> oscOutputs;
-
-void print(const DataPacket& packet) {
-  // Clear the current line
-  std::cout << '\r';
-
-  // Print out the EMG data.
-  for (size_t i = 0; i < packet.size(); i++) {
-    std::ostringstream oss;
-    oss << static_cast<int>(packet[i]);
-    std::string emgString = oss.str();
-
-    std::cout << '[' << emgString << std::string(4 - emgString.size(), ' ') << ']';
-  }
-
-  std::cout << std::flush;
-
-  // Send OSC
-  char buffer[OUTPUT_BUFFER_SIZE];
-  osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
-
-  p << osc::BeginBundleImmediate << osc::BeginMessage( "/myo" );
-  for (int i = 0; i < packet.size(); i++)
-    p << packet[i];
-  p << osc::EndMessage << osc::EndBundle;
-
-  for (auto i : oscOutputs)
-    i->Send(p.Data(), p.Size());
-
-  // Send WebSocket
-}
 
 void addOscOutput(const std::string& in_address, bool broadcast) {
   auto pos = find(in_address.begin(), in_address.end(), ':');
@@ -181,7 +155,70 @@ void addOscOutput(const std::string& in_address, bool broadcast) {
   if (broadcast)
     output->SetEnableBroadcast(true);
   oscOutputs.push_back(output);
-  cout << (broadcast ? "Broadcasting on " : "Sending to ") << address << ", port: " << port << endl;
+  cout << "OSC: " << (broadcast ? "Broadcasting on " : "Sending to ") << address << ", port: " << port << endl;
+}
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+typedef websocketpp::connection_hdl connection_hdl;
+
+typedef std::set<connection_hdl,std::owner_less<connection_hdl>> con_list;
+
+server print_server;
+con_list connections;
+
+void on_message(websocketpp::connection_hdl hdl, server::message_ptr msg) {
+  std::cout << msg->get_payload() << std::endl;
+}
+
+void on_open(connection_hdl hdl) {
+  connections.insert(hdl);
+}
+
+void on_close(connection_hdl hdl) {
+  connections.erase(hdl);
+}
+
+void print(const DataPacket& packet) {
+  // Clear the current line
+  //  std::cout << '\r';
+  //
+  //  // Print out the EMG data.
+  //  for (size_t i = 0; i < packet.size(); i++) {
+  //    std::ostringstream oss;
+  //    oss << static_cast<int>(packet[i]);
+  //    std::string emgString = oss.str();
+  //
+  //    std::cout << '[' << emgString << std::string(4 - emgString.size(), ' ') << ']';
+  //  }
+  //
+  //  std::cout << std::flush;
+  
+  // Send OSC
+  char buffer[OUTPUT_BUFFER_SIZE];
+  osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
+  
+  p << osc::BeginBundleImmediate << osc::BeginMessage( "/myo" );
+  for (int i = 0; i < packet.size(); i++)
+    p << packet[i];
+  p << osc::EndMessage << osc::EndBundle;
+  
+  for (auto i : oscOutputs)
+    i->Send(p.Data(), p.Size());
+  
+  std::stringstream val;
+  for (int i = 0; i < packet.size(); i++)
+    val << to_string(packet[i]) << ",";
+  val << endl;
+  
+  // Send WebSocket
+  for (auto i : connections) {
+    try {
+      print_server.send(i, val.str(),websocketpp::frame::opcode::text);
+    }
+    catch (websocketpp::exception const & e) {
+      std::cout << "Exception during send: " << e.what() << std::endl;
+    }
+  }
 }
 
 int main(int argc, char** argv)
@@ -202,7 +239,7 @@ int main(int argc, char** argv)
   };
   for (auto option : oscOuts) {
     if (vm.count(option.first)) {
-      for (auto i : vm[option.first].as< vector<string> >())
+      for (auto i : vm[option.fiuusrst].as< vector<string> >())
         addOscOutput(i, option.second);
     }
   }
@@ -215,7 +252,18 @@ int main(int argc, char** argv)
   DataSource* activeSource = &random; //collector.connect() ? &collector : &random;
   activeSource->setCallback(print);
 
+  print_server.set_open_handler(&on_open);
+  print_server.set_close_handler(&on_close);
+  
+  print_server.set_message_handler(&on_message);
+
+  print_server.init_asio();
+  print_server.listen(9002);
+  print_server.start_accept();
+  
   while (1) {
     activeSource->poll();
+    print_server.get_io_service().poll();
+    this_thread::sleep_for(chrono::milliseconds(1));
   }
 }
