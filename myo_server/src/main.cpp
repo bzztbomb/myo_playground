@@ -4,18 +4,12 @@
 #include <stdexcept>
 #include <string>
 #include <functional>
+#include <chrono>
 
 #include <myo/myo.hpp>
 
 #include "osc/OscOutboundPacketStream.h"
 #include "ip/UdpSocket.h"
-
-#define ADDRESS "127.0.0.1"
-#define PORT 7000
-
-#define OUTPUT_BUFFER_SIZE 1024
-
-UdpTransmitSocket transmitSocket( IpEndpointName( ADDRESS, PORT ) );
 
 typedef std::array<int8_t, 8> DataPacket;
 typedef std::function<void(const DataPacket&)> NewDataCallback;
@@ -30,15 +24,26 @@ protected:
 };
 
 class RandomDataSource : public DataSource {
+public:
+  RandomDataSource()
+  : mLastTime(RandomClock::now())
+  , mFPS(std::chrono::milliseconds((int) (1000.0f / 30.0f)))
+  {
+  }
+  
   virtual void poll() {
+    if (RandomClock::now() - mLastTime < mFPS)
+      return;
     DataPacket p;
     for (int i = 0; i < p.size(); i++) {
-      p[i] = (float) rand() / (float) RAND_MAX;
-      p[i] *= 255;
-      p[i] -= 127;
+      p[i] = (((float) rand() / (float) RAND_MAX) * 255.0f) - 127.0f;
     }
     mNewDataCallback(p);
   }
+private:
+  typedef std::chrono::system_clock RandomClock;
+  RandomClock::time_point mLastTime;
+  RandomClock::duration mFPS;
 };
 
 class DataCollector : public DataSource, public myo::DeviceListener {
@@ -120,6 +125,13 @@ private:
   std::array<int8_t, 8> emgSamples;
 };
 
+#define ADDRESS "127.0.0.1"
+#define PORT 7000
+
+#define OUTPUT_BUFFER_SIZE 1024
+
+std::vector<UdpTransmitSocket*> oscOutputs;
+
 void print(const DataPacket& packet) {
   // Clear the current line
   std::cout << '\r';
@@ -144,20 +156,28 @@ void print(const DataPacket& packet) {
     p << packet[i];
   p << osc::EndMessage << osc::EndBundle;
 
-  transmitSocket.Send( p.Data(), p.Size() );
+  for (auto i : oscOutputs)
+    i->Send(p.Data(), p.Size());
 
   // Send WebSocket
 }
 
 int main(int argc, char** argv)
 {
+  // Initialize the broadcast socket
+  UdpTransmitSocket* output = new UdpTransmitSocket(IpEndpointName(ADDRESS, PORT));
+  output->SetAllowReuse(true);
+  output->SetEnableBroadcast(true);
+  oscOutputs.push_back(output);
+  
   RandomDataSource random;
 
   DataCollector collector;
   collector.setCallback(print);
 
-  DataSource* activeSource = collector.connect() ? &collector : &random;
-
+  DataSource* activeSource = &random; //collector.connect() ? &collector : &random;
+  activeSource->setCallback(print);
+  
   while (1) {
     activeSource->poll();
   }
