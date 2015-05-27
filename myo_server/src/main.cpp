@@ -206,9 +206,10 @@ void print(const DataPacket& packet) {
     i->Send(p.Data(), p.Size());
   
   std::stringstream val;
+  val << "[ ";
   for (int i = 0; i < packet.size(); i++)
-    val << to_string(packet[i]) << ",";
-  val << endl;
+    val << to_string(packet[i]) << (i != packet.size() - 1 ? "," : "");
+  val << "]";
   
   // Send WebSocket
   for (auto i : connections) {
@@ -239,7 +240,7 @@ int main(int argc, char** argv)
   };
   for (auto option : oscOuts) {
     if (vm.count(option.first)) {
-      for (auto i : vm[option.fiuusrst].as< vector<string> >())
+      for (auto i : vm[option.first].as< vector<string> >())
         addOscOutput(i, option.second);
     }
   }
