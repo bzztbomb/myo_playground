@@ -224,11 +224,14 @@ void print(const DataPacket& packet) {
 
 int main(int argc, char** argv)
 {
+  bool random_source = false;
   po::options_description desc("Allowed options");
   desc.add_options()
     ("help", "produce help message")
     ("oscbroadcast", po::value< vector<string> >(), "broadcast packets on this address:port")
-    ("oscsend", po::value< vector<string> >(), "send packets directly to address:port");
+    ("oscsend", po::value< vector<string> >(), "send packets directly to address:port")
+    ("randomsource", po::value<bool>(&random_source)->default_value(false), "use random numbers instead of emg data")
+  ;
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -246,11 +249,18 @@ int main(int argc, char** argv)
   }
   
   RandomDataSource random;
-
   DataCollector collector;
-  collector.setCallback(print);
+  
+  DataSource* activeSource = &random;
+  if (!random_source)
+  {
+    if (collector.connect()) {
+      activeSource = &collector;
+    } else {
+      exit(1);
+    }
+  }
 
-  DataSource* activeSource = &random; //collector.connect() ? &collector : &random;
   activeSource->setCallback(print);
 
   print_server.set_open_handler(&on_open);
