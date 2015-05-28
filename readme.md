@@ -34,6 +34,6 @@ This is a quick [Cinder](http://libcinder.org) sketch that consumes the OSC pack
 
 ##Dependencies:
 
-Get Cinder from github (b28debbe036acd739b5d5b65e344184342514054 (glNext from Feb 2nd) or newer)
+Get Cinder from github, checkout the latest glNext branch.
 Update the CINDER_PATH variable in the XCode project to point at your Cinder install.
 

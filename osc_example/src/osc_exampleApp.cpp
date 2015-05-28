@@ -1,4 +1,4 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/gl/Shader.h"
@@ -36,7 +36,7 @@ void drawBuffer(const std::deque<int8_t>& buffer, const Rectf &bounds, bool draw
   }
 }
 
-class osc_exampleApp : public AppNative {
+class osc_exampleApp : public App {
 public:
 	void setup() override;
 	void mouseDown( MouseEvent event ) override;
@@ -89,11 +89,11 @@ void osc_exampleApp::draw()
   vec3 currColor = vec3(0.0f, 1.0f, 1.0f);
   float hInc = 1.0 / mEMG.size();
   for (auto emg : mEMG) {
-    ColorA c = hsvToRGB(currColor);
+    ColorA c = hsvToRgb(currColor);
     drawBuffer(emg, Rectf(0, currY, width, currY + height), true, c, 1.0f / 256.0f);
     currColor.r += hInc;
     currY += height;
   }
 }
 
-CINDER_APP_NATIVE( osc_exampleApp, RendererGl )
+CINDER_APP( osc_exampleApp, RendererGl )
