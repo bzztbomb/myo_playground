@@ -13,12 +13,41 @@
     <script language="javascript" type="text/javascript">
         var wsUri = "ws://localhost:9002/";
         var output;
-        var currentScales = [0,0,0,0,0,0,0,0];
+        var currentScales = [];
+        var rms = [0,0,0,0,0,0,0,0];
+
+        var oscillators = [];
+        var oscillatorScales = [3,7,11,13,17,19,23,27];
+        var gainNodes = [];
 
         function init() {
+            var i, j;
+            for (i = 0; i < 8; i++)
+                currentScales[i] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
             output = document.getElementById("output");
             testWebSocket();
             setupRender();
+            setupAudio();
+        }
+
+        function setupAudio() {
+            // create web audio api context
+            var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+            // create Oscillator node
+            var i;
+            for (i = 0; i < 8; i++) {
+                oscillator = audioCtx.createOscillator();
+                oscillator.type = 'square';
+                oscillator.frequency.value = 3000; // value in hertz
+                oscillator.start();
+                var gainNode = audioCtx.createGain();
+                gainNode.connect(audioCtx.destination);
+                gainNode.gain.value = 0.15;
+                gainNodes.push(gainNode);
+                oscillator.connect(gainNode);
+                oscillators.push(oscillator);
+            }
         }
 
         function setupRender() {
@@ -58,12 +87,18 @@
                 for (var i = 0; i < cubes.length; i++) {
                     // cubes[i].rotation.x += 0.1;
                     cubes[i].rotation.y += 0.01;
-                    cubes[i].scale.y = (((currentScales[i] + 127.0) / 255.0) + 0.5) * 5.0; // scale from -127..127 ]
+                    var x = ((rms[i] + 127.0) / 255.0);
+                    cubes[i].scale.y = (x*x*x + 0.5) * 10.0; // scale from -127..127 ]
                 }
 
                 renderer.render(scene, camera);
             };
             render();
+        }
+
+        function root_mean_square(ary) {
+            var sum_of_squares = ary.reduce(function(s,x) {return (s + x*x)}, 0);
+            return Math.sqrt(sum_of_squares / ary.length);
         }
 
         function testWebSocket() {
@@ -75,7 +110,21 @@
                 writeToScreen("Connection closed!");
             };
             websocket.onmessage = function(evt) {
-                currentScales = JSON.parse(evt.data);
+                var newData = JSON.parse(evt.data);
+                var i;
+                var oldstyle = false;
+                for (i = 0; i < 8; i++) {
+                    currentScales[i].push(newData[i]);
+                    currentScales[i].shift();
+                    rms[i] = root_mean_square(currentScales[i]);
+                    if (oldstyle) {
+                        oscillators[i].frequency.value = rms[i] * oscillatorScales[i];
+                    } else {
+                        oscillators[i].frequency.value = 30 + (67 * i);
+                        gainNodes[i].gain.value = rms[i] * 0.01;
+                    }
+                }
+
             };
             websocket.onerror = function(evt) {
                 writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);

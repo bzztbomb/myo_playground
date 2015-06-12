@@ -59,6 +59,7 @@ class DataCollector : public DataSource, public myo::DeviceListener {
 public:
   DataCollector()
   : emgSamples()
+  , mConnected(false)
   {
   }
 
@@ -100,6 +101,9 @@ public:
   }
 
   void poll() {
+    if (!mConnected) {
+      mConnected = connect();
+    }
     mHub->run(1000/20);
   }
 
@@ -111,6 +115,12 @@ public:
     emgSamples.fill(0);
     if (mNewDataCallback)
       mNewDataCallback(emgSamples);
+    mConnected = false;
+    std::cout << "Lost connection!" << std::endl;
+  }
+  
+  virtual void onDisconnect(myo::Myo* myo, uint64_t timestamp) {
+    onUnpair(myo, timestamp);
   }
 
   // onEmgData() is called whenever a paired Myo has provided new EMG data, and EMG streaming is enabled.
@@ -132,6 +142,7 @@ private:
   myo::Myo* mMyo;
   // The values of this array is set by onEmgData() above.
   std::array<int8_t, 8> emgSamples;
+  bool mConnected;
 };
 
 //#define ADDRESS "127.0.0.1"
@@ -254,11 +265,7 @@ int main(int argc, char** argv)
   DataSource* activeSource = &random;
   if (!random_source)
   {
-    if (collector.connect()) {
-      activeSource = &collector;
-    } else {
-      exit(1);
-    }
+    activeSource = &collector;
   }
 
   activeSource->setCallback(print);
@@ -271,6 +278,14 @@ int main(int argc, char** argv)
   print_server.init_asio();
   print_server.listen(9002);
   print_server.start_accept();
+
+  websocketpp::server<websocketpp::config::asio> server;
+  
+  print_server.clear_access_channels(websocketpp::log::alevel::frame_header | websocketpp::log::alevel::frame_payload);
+  // this will turn off console output for frame header and payload
+  
+  print_server.clear_access_channels(websocketpp::log::alevel::all);
+  // this will turn off everything in console output
   
   while (1) {
     activeSource->poll();
